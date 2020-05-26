@@ -16,7 +16,7 @@ namespace TM
     {
 
         /// <summary>
-        ///             Main method
+        ///  MODEL           Main method
         /// </summary>
         public static void Main(string[] args)
         {
