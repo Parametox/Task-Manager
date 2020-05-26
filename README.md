@@ -9,4 +9,4 @@ Aplication consist of three parts: (description what include inside)
 Application shows using mainly SOLID and MVC principles. 
 
 made by Piotr Cieślik
-533-993-037
+
