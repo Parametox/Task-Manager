@@ -15,9 +15,19 @@ namespace TM
         /// Method displays massage
         /// </summary>
         /// <param name="message">Message to display</param>
-         static internal void OutputMessage(string message)
+        static internal void OutputMessage(string message)
         {
+            Console.SetCursorPosition((Console.WindowWidth - message.Length) / 2, Console.CursorTop);
             Console.WriteLine(message);
+        }
+
+        static internal void OutputMessageShowTask(string num, string message)
+        {
+            string output = string.Empty;
+            Console.Write("{0,30}............ ",num);
+            Console.SetCursorPosition((Console.WindowWidth - message.Length) / 2, Console.CursorTop);
+            Console.Write(message);
+            Console.WriteLine();
         }
 
         /// <summary>
