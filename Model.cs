@@ -20,7 +20,7 @@ namespace TM
         /// </summary>
         public static void Main(string[] args)
         {
-
+            Console.SetWindowSize(95,40);
             string ConPath = "data.txt";    // Path for file with connection data
             FileStream FileStream = new FileStream(ConPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);        // Create a database configuration file
             StreamWriter sw;
@@ -36,34 +36,57 @@ namespace TM
 
             SqlConnection sqlConnection = new SqlConnection(connect);   // Create a connection with local database via Integrated Security=true
             SqlCommand sqlCommand = sqlConnection.CreateCommand();
-            string announce = "!!! Use ENTER KEY to accept \"green\" or \"red\" announces !!!";
+            string announce = "!!! Use ENTER KEY to accept \"green\" or \"red\" announcements !!!";
             View.OutputMessage(announce);
             ConnectDB(connect);                                         // Test connecion with database
 
             while (true)
             {
+                string menu, menu1, menu2, menu3, menu4, menu5,task;
+                menu = "====================================================================";
+                task = "TASK MANAGER MENU: ";
+                menu1 = "1. SHOW ALL TASKS";
+                menu2 = "2. CREATE A NEW TASK";
+                menu3 = "3. DELETE TASK";
+                menu4 = "4. QUIT";
+                menu5 = "====================================================================";
 
-                View.OutputMessage("TASK MANAGER MENU:\n");
-                View.OutputMessage("1. SHOW ALL TASKS\n2. CREATE A NEW TASK\n3. DELETE TASK\n4. QUIT");     // Menu 
+                View.OutputMessage("\n");
+                View.OutputMessage(menu);
+                View.OutputMessage(task);
+                View.OutputMessage(menu1);
+                View.OutputMessage(menu2);
+                View.OutputMessage(menu3);
+                View.OutputMessage(menu4);
+                View.OutputMessage(menu5);// Menu 
+                View.OutputMessage("\n");
                 int swth = Controller.GetIntValue(); // Input
-
+                
                 switch (swth)
                 {
                     case 1:
                         Console.Clear();
+                        View.OutputMessage(menu1+"\n");
                         Model.ShowTask(sqlConnection, sqlCommand);           // Show all tasks
                         break;
                     case 2:
                         Console.Clear();
-                        View.OutputMessage("\nMinimum lenght Your task is 5 but maximum 250\n\nWrite your task: ");
+                        View.OutputMessage(menu2 + "\n");
+                        string min,newe;
+                        min = "Minimum lenght of your task is 5 but maximum 250";
+                        newe = "Write your task: ";
+                        View.OutputMessage(min);
+                        View.OutputMessage(newe);
                         string newstr = Controller.GetStringValue();
                         Model.AddTask(newstr, sqlConnection, sqlCommand);     // Add a new task
                         break;
                     case 3:
                         Console.Clear();
+                        View.OutputMessage(menu3 + "\n");
                         Model.DeleteTask(sqlConnection, sqlCommand);          // Delete task
                         break;
                     case 4:
+                        View.OutputMessage(menu4 + "\n");
                         sqlConnection.Dispose();
                         Environment.Exit(0);                            // Exit from aplication
                         break;
@@ -104,7 +127,8 @@ namespace TM
                 }
                 else
                 {
-                    View.OutputMessageSuccess(" CONNECTED ");
+                    string con = "CONNECTED";
+                    View.OutputMessageSuccess(con);
                     sqlConnection.Close();
                 }
             }
@@ -174,7 +198,7 @@ namespace TM
                         sqlConnection.Close();
                     }
 
-                    Console.Clear();
+                    
                     string added = "Task was added!";
                     View.OutputMessageSuccess(String.Format("\n{0,10}\n", added));
                 }
@@ -201,11 +225,11 @@ namespace TM
 
             using (SqlDataReader read = sqlCommand.ExecuteReader())
             {
-                View.OutputMessage(String.Format("{0,-10} {1,10} ", "Num", "Description"));
-                View.OutputMessage("=============================================");
+                View.OutputMessageShowTask( "Num", "Description");
+                View.OutputMessage("====================================================================");
                 while (read.Read())
                 {
-                    View.OutputMessage(String.Format("{0,-10} {1,-10}", num++, read[1]));
+                    View.OutputMessageShowTask(num++.ToString(), read[1].ToString());
                 }
             }
             sqlConnection.Close();
@@ -271,7 +295,7 @@ namespace TM
                 }
 
                 string delated = "################ DELETED SUCCESSFULLY ################";
-                Console.Clear();
+                
                 View.OutputMessageSuccess(String.Format("\n{0,10}\n", delated));
                 Model.ShowTask(sqlConnection, sqlCommand);
             }
